@@ -14,7 +14,9 @@ See the examples for simplified instruction on the use of the toolbox.
 
 **References:**
 
-If you use this code, please cite our forthcoming paper, "Slip rate deficit and earthquake potential on shallow megathrusts" (in review). Check back here for a full reference soon!
+If you use this code, please cite our paper:
+
+  Lindsey, E. O., R. Mallick, J. A. Hubbard, K. E. Bradley, R. Almeida, J. D. P. Moore, R. Burgmann, and E. M. Hill, Slip rate deficit and earthquake potential on shallow megathrusts, Nature Geoscience, [doi:10.1038/s41561-021-00736-x](https://doi.org/10.1038/s41561-021-00736-x), 2021.
 
 Depending on which elastic deformation greens functions you use (rectangular or triangular), also cite:
 
