@@ -213,7 +213,7 @@ classdef Static_GPS_Dataset < Jointinv_Dataset
             if strcmp(userParams.coordType,'geographic')
                 %convert x,y coordinates from lat, lon to meters relative to the reference point
                 [x,y] = latlon_to_xy_polyconic(obj.lat, obj.lon, obj.lat0, obj.lon0);
-                obj.coordinates=[x,y,height];
+                obj.coordinates=[x*1e3,y*1e3,height];
             elseif strcmp(userParams.coordType,'cartesian') 
                 obj.coordinates=[obj.lon,obj.lat,height];  
             else
