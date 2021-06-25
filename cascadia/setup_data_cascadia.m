@@ -54,7 +54,7 @@ for i=1:length(fltXkm)
 end
 fclose(fileID);
 
-% load, test and plot geometry
+%% load, test and plot geometry
 mu=30e9; nu=1/4;
 fltname='faults/cascadia_100km_xyz';
 megathrust=unicycle.geometry.triangleReceiver(fltname,unicycle.greens.nikkhoo15(mu,nu));
@@ -92,7 +92,7 @@ figure(1), clf
 megathrust.plotPatch(megathrust.xc(:,3)), hold on
 megathrust.plotPatch(), hold on
 
-%
+%%
 %scaled_quiver(megathrust.xc(:,1),megathrust.xc(:,2),megathrust.dv(:,1),megathrust.dv(:,2),2e4,{'k'}), hold on
 view(2)
 %
