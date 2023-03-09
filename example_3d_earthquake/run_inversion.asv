@@ -1,0 +1,95 @@
+% Example script to run 3D inversion and find optimum value of smoothing
+%
+% Eric Lindsey, July 2019
+
+%% Create jointinv object
+
+expNumber=102; 
+scenario = Jointinv(expNumber);
+
+% read the input file and set up matrices
+scenario.run_setup();
+
+% Run and plot inversion with input parameters
+tic
+scenario.run_inversion()
+toc
+
+%
+ax=figure(1); clf
+Mw=plot_jointinv_slipmodel(scenario,ax,1e5);
+plot_jointinv_dataset(scenario,ax,1e5, 200);
+title(['inversion and data fits, magnitude ' num2str(round(Mw,2))])
+daspect([1 1 1])
+view(37.5,37.5)
+
+%% use ABIC to find the optimal smoothing weight
+
+wgts = logspace(-4,1,10); % logarithmically spaced from 1e-4 to 1e0.
+abic = zeros(1,length(wgts));
+
+for i=1:length(wgts)
+    scenario.userParams.smoothingWeights{1}{1}=wgts(i);
+    % run the inversion
+    scenario.run_inversion()
+    % get ABIC value
+    abic(i) = abic_smoothingonly(scenario);
+end
+
+figure(10),clf
+semilogx(wgts,abic-min(abic));
+xlabel('smoothing weight')
+ylabel('Delta ABIC, relative to minimum')
+title(['ABIC vs. smoothing weight, minimum at ',num2str(wgts(abic==min(abic))])
+
+%% optimize smoothing with fminunc
+tic
+optalpha_fminunc = optimize_smoothing_fminunc(scenario)
+toc
+abic_opt_fminunc = get_jointinv_abic_singlesmoothing(scenario,optalpha_fminunc);
+
+%% optimize smoothing with newton's method
+tic
+optalpha_newton = optimize_smoothing_newton(scenario, 1e-4, 1e-3)
+toc
+abic_opt_newton = get_jointinv_abic_singlesmoothing(scenario,optalpha_newton);
+
+%% plot all results
+figure(10),clf
+plot(weights,resid,'-bs'), hold on
+plot(optalpha_fminunc,abic_opt_fminunc,'rx')
+plot(optalpha_newton,abic_opt_newton,'gs')
+plot(optalpha_grid,abic_opt_grid,'bx')
+xlabel('log_{10}\alpha')
+ylabel('ABIC')
+set(gca, 'fontsize',14,'xscale','log')
+title('Optimized alpha with stress kernel smoothing')
+legend('grid search','matlab fminunc','newtons method')
+
+%% plot best model
+
+% set optional variables outside the param file, if desired
+scenario.sources{1}.params.smoothingWeights = { optalpha_newton };
+tic
+scenario.run_inversion()
+toc
+figure(1),clf
+ax1=subplot(1,4,1:2);
+plot_jointinv_slipmodel(scenario,ax1,2e5);
+caxis([0 3]),colormap(flipud(hot))
+title('inversion and data fits')
+daspect([1 1 1])
+
+subplot(1,4,3:4)
+load('./faults/synthetic_slip_model.mat');
+scenario.sources{1}.geom.plotPatch(slipmag)
+caxis([0 3]),colormap(flipud(hot))
+title('true model')
+daspect([1 1 1])
+
+figure(11),clf
+scenario.sources{1}.geom.plotPatch(scenario.sources{1}.modelVector-slipmag)
+caxis([-1 1]),colormap(bluewhitered)
+title('difference')
+colorbar
+daspect([1 1 1])

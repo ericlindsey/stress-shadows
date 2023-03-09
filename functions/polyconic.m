@@ -38,3 +38,4 @@ pr = ((p2 + p1) / 2.)*arcone;
 y = ((((a0*ipr) - ((a2*cos(2.*pr))*sin(ipr))) + ((a4*cos(4.*pr))*sin(2.*ipr))) - ((a6*cos(6.*pr))*sin(3.*ipr))) + ((a8*cos(8.*pr))*sin(4.*ipr));
 xy = [x, y];
 
+end

@@ -444,7 +444,7 @@ classdef Static_Halfspace_Fault_Source < Jointinv_Source
             upperBounds=lowerBounds;
             
             for i=1:length(bounds)
-                if (strcmp(bounds{i}{1},'strike'))
+                if (strcmp(bounds{i}{1},'strike') || strcmp(bounds{i}{1},'rake') )
                     lowerBounds(strikerange)=bounds{i}{2};
                     upperBounds(strikerange)=bounds{i}{3};
                     

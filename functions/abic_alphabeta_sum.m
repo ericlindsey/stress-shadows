@@ -12,7 +12,7 @@ function abic = abic_alphabeta(scenario)
 % Rishav Mallick, EOS, 2019
 % Modified by E. Lindsey, June 2019
 % reference Fukuda and Johnson (2008; 2010), Funning et al., (2014)
-%%
+
 d = scenario.dataVector;
 m = scenario.modelVector;
 W = inv(scenario.datasets{1}.covarianceMatrix);
@@ -29,10 +29,8 @@ npatch = length(scenario.modelVector);
 % modified by Eric to make the model vector "m" a user input instead of computed.
 %m = (G'*W*G + (alpha^2)*(L'*L) + (beta^2)*eye(npatch))\(G'*W*d);
 
-%abic1 = length(d)*log((d-G*m)'*W*(d-G*m) + (alpha^2)*(L*m)'*(L*m) + (beta^2)*(m'*m));
 abic1 = length(d)*log((d-G*m)'*W*(d-G*m) + (alpha^2)*(L*m)'*(L*m) + (beta^2)*sum(m)^2);
 
-%LL = (alpha^2)*(L'*L) + (beta^2)*eye(npatch);
 LL = (alpha^2)*(L'*L) + (beta^2)*npatch; %??
 eigprior = abs(eig(LL));
 eigprior(eigprior<=0) = [];

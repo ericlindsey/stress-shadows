@@ -56,5 +56,11 @@ function results = calc_coupling_result_components(scenario)
     results.rakeStress = stress_r_rp(1:end/2);
     results.rakePerpStress = stress_r_rp(end/2+1:end);
 
+    % moment rate (and "magnitude rate", if useful)
+    results.slipMagnitudeMeters = ((results.strikeSlip/1e3).^2 + (results.dipSlip/1e3).^2).^0.5;
+    [results.momentDeficitRate, results.magnitudePerYear] = get_moment_and_magnitude(scenario.sources{1}.geom, results.slipMagnitudeMeters);
+    
+    % rates per 100yrs
+    [results.momentDeficitRate100yr, results.magnitudePerYear100yr] = get_moment_and_magnitude(scenario.sources{1}.geom, results.slipMagnitudeMeters*100);
     
 end
