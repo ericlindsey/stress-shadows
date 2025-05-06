@@ -2,6 +2,7 @@ Shadows: A stress-constrained inversion method for geodetic data
 ------
 Eric Lindsey, Earth Observatory of Singapore
 
+Version 1.1: May 2025 - modified for better fitting of LOS datasets (coseismic, etc.)
 Version 1.0: October 2019
 
 The stress-shadows repository contains code and examples for running stress-constrained inversions for interseismic slip rate deficit (kinematic coupling) on faults. It is particularly applicable to offshore megathrusts, where near-trench resolution is low.
