@@ -91,13 +91,45 @@ classdef Static_Halfspace_Fault_Source < Jointinv_Source
                     G(i,:) = dataset.losVector(i,:) * G_3d(1+3*(i-1):3*i,:);
                 end
                 
-                 % extra options
+            else
+                disp(['Unknown dataset type ' class(dataset) ' for ' class(obj) ' method get_design_matrix. Returning zeros.'])
+                G = zeros(length(dataset.dataVector), 1);
+            
+            end
+            
+            if isfield(userParams, 'faultOptions')
+                if strcmp(userParams.faultOptions, 'rakeFixed')
+                    % rotate the strike/dip coordinates into the plate-rake
+                    % direction and keep only the first half
+                    % rotate G matrix into rake direction, keeping only the
+                    % rake component
+                    G = G(:,1:end/2); % this is probably wrong... works ok only for strike-slip
+                    %G = G * obj.Rmat(:,1:end/2); % is this correct?
+                    %rakeangle=obj.rakeFile(:,1);
+                    %G = G * [diag(cosd(rakeangle)); diag(sind(rakeangle))]; % is this correct?
+
+                elseif strcmp(userParams.faultOptions, 'rakeCoordinates')
+                    % rotate the strike/dip coordinates into the plate-rake
+                    % direction and keep both coordinates
+                    
+                    % rotate G matrix
+                    % rakeangle=obj.rakeFile(:,1);
+                    % size(rakeangle)
+                    % size(G)
+                    %G = G * obj.Rmat; % is this correct?
+                    % G = G * [diag(sind(rakeangle)), diag(-cosd(rakeangle)); diag(cosd(rakeangle)), diag(sind(rakeangle))]; % is this correct?
+                end
+            end
+
+            % extra options
+            if isa(dataset,'Static_LOS_Dataset')
                 if isfield(userParams, 'trendParameters')
                     assert(length(userParams.trendParameters) >= Idataset,'Error: trendParameters list is too short');
                     numtrend=sum([userParams.trendParameters{:}]);
                     Ioffset=sum([userParams.trendParameters{1:Idataset-1}]);
                     M=size(G,2);
                     G=[G,zeros(size(G,1),numtrend)]; %add columns for all offset parameters
+
                     foundtrend=0;
                     if userParams.trendParameters{Idataset} >= 1
                         disp('Adding one parameter for offset')
@@ -115,36 +147,10 @@ classdef Static_Halfspace_Fault_Source < Jointinv_Source
                         G(:,M+Ioffset+5)=dataset.coordinates(:,2).*dataset.coordinates(:,2); %add y.^2 trend
                         G(:,M+Ioffset+6)=dataset.coordinates(:,2).*dataset.coordinates(:,1); %add x.*y trend
                     end
-                    
+
                     if foundtrend==0
                         disp('Did not recognize trendParameters value, doing nothing.')
                     end
-                end
-                
-            else
-                disp(['Unknown dataset type ' class(dataset) ' for ' class(obj) ' method get_design_matrix. Returning zeros.'])
-                G = zeros(length(dataset.dataVector), 1);
-            
-            end
-            
-           
-            
-            if isfield(userParams, 'faultOptions')
-                if strcmp(userParams.faultOptions, 'rakeFixed')
-                    % rotate the strike/dip coordinates into the plate-rake
-                    % direction and keep only the first half
-                    
-                    % rotate G matrix into rake direction, keeping only the
-                    % rake component
-                    G = G * obj.Rmat(:,1:end/2); % is this correct?
-                    %G = - G * [diag(cosd(rakeangle)); diag(sind(rakeangle))]; % is this correct?
-                elseif strcmp(userParams.faultOptions, 'rakeCoordinates')
-                    % rotate the strike/dip coordinates into the plate-rake
-                    % direction and keep both coordinates
-                    
-                    % rotate G matrix
-                    G = G * obj.Rmat; % is this correct?
-                    %G = G * [diag(sind(rakeangle)), diag(-cosd(rakeangle)); diag(cosd(rakeangle)), diag(sind(rakeangle))]; % is this correct?
                 end
             end
             
@@ -195,10 +201,11 @@ classdef Static_Halfspace_Fault_Source < Jointinv_Source
                 if isfield(userParams, 'faultOptions')
                     if strcmp(userParams.faultOptions, 'rakeFixed')
                         % rotate L matrix into rake direction, keeping only the first half
-                        L = L * obj.Rmat(:,1:end/2);
+                        %L = obj.Rmat(:,1:end/2)' * L * obj.Rmat(:,1:end/2);
+                        L = L(1:end/2,1:end/2);
                     elseif strcmp(userParams.faultOptions, 'rakeCoordinates')
                         % rotate L matrix into rake direction, keeping both
-                        L = obj.Rmat' * L * obj.Rmat;
+                        %L = obj.Rmat' * L * obj.Rmat;
                     end
                 end
                 % lVector is the length of L
