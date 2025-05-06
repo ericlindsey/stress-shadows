@@ -22,13 +22,15 @@ function newVertices = fix_triangleReceiver_signs(triangleReceiver)
     newVertices=[];
     
     for i=1:length(cp)
-        if cp(:,3) >= 0 % this is a bad triangle
-            newVertices(i,1)=(triangleReceiver.vertices(i,3));
-            newVertices(i,2)=(triangleReceiver.vertices(i,2));
-            newVertices(i,3)=(triangleReceiver.vertices(i,1));
+
+        if cp(i,3) > 0 % this is a bad triangle
+            newVertices(i,1)=(triangleReceiver.vertices(i,1));
+            newVertices(i,2)=(triangleReceiver.vertices(i,3));
+            newVertices(i,3)=(triangleReceiver.vertices(i,2));
         else
             newVertices(i,:)=triangleReceiver.vertices(i,:);
         end
+    
     end
    
 end
