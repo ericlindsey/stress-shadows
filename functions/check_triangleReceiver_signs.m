@@ -16,7 +16,7 @@ function check_triangleReceiver_signs(triangleReceiver)
     v2 = p3 - p2;
 
     cp=cross(v1,v2);
-
+    
     assert(max(cp(:,3))<=0,'Error: For use with Jointinv, vertices for all triangles in triangleReceiver object must be ordered in a clockwise sense.')
 
 end
