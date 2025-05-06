@@ -9,7 +9,7 @@ function results = calc_coupling_result_components(scenario)
 
     % misfit characteristics:
     results.expNumber = scenario.expNumber;
-    results.chi2 = ((scenario.predVector - scenario.dataVector)'*inv(scenario.datasets{1}.covarianceMatrix)*(scenario.predVector - scenario.dataVector))/length(scenario.dataVector);
+    results.chi2 = ((scenario.predVector - scenario.dataVector)'*inv(scenario.dataCovarianceMatrix)*(scenario.predVector - scenario.dataVector))/length(scenario.dataVector);
     
     % Computation of ABIC is slow: user can compute separately if desired
     %obj.abic = abic_alphabeta(scenario);
