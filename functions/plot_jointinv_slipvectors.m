@@ -8,7 +8,7 @@ function plot_jointinv_slipvectors(scenario,source,ax,quiverScale, vecColor)
         if strcmp(scenario.userParams.faultOptions, 'rakeCoordinates')
             m = source.Rmat * source.modelVector;
         elseif strcmp(scenario.userParams.faultOptions, 'rakeFixed')
-            m = source.Rmat(:,1:end/2) * source.modelVector;
+            m = source.Rmat * source.modelVector;
         end
     else
         if scenario.userParams.slipComponents == 1
