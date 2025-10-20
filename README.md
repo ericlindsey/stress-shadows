@@ -19,7 +19,10 @@ If you use this code, please cite our paper:
 
   Lindsey, E. O., R. Mallick, J. A. Hubbard, K. E. Bradley, R. Almeida, J. D. P. Moore, R. Burgmann, and E. M. Hill, Slip rate deficit and earthquake potential on shallow megathrusts, Nature Geoscience, [doi:10.1038/s41561-021-00736-x](https://doi.org/10.1038/s41561-021-00736-x), 2021.
 
-Depending on which elastic deformation greens functions you use (rectangular or triangular), also cite:
+You may also cite the code directly: [![DOI](https://zenodo.org/badge/215260509.svg)](https://doi.org/10.5281/zenodo.17393978)
+
+
+Depending on which elastic deformation greens functions you use (rectangular or triangular), please also cite:
 
  (rectangular) Okada, Y., 1992. Internal deformation due to shear and tensile faults in a half-space, Bull. Seism. Soc. Am., 82, 1018–1040.
 
