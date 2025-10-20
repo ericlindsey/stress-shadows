@@ -24,6 +24,6 @@ You may also cite the code directly: [![DOI](https://zenodo.org/badge/215260509.
 
 Depending on which elastic deformation greens functions you use (rectangular or triangular), please also cite:
 
- (rectangular) Okada, Y., 1992. Internal deformation due to shear and tensile faults in a half-space, Bull. Seism. Soc. Am., 82, 1018–1040.
+ (rectangular) Okada, Y., 1992. Internal deformation due to shear and tensile faults in a half-space, Bull. Seism. Soc. Am., 82, 1018–1040, https://doi.org/10.1785/BSSA0820021018.
 
  (triangular) Nikkhoo, M., and T. R. Walter (2015), Triangular dislocation: an analytical, artefact-free solution, Geophys. J. Int., 201(2), 1119–1141, https://doi.org/10.1093/gji/ggv035.
